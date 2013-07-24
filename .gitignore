@@ -12,3 +12,8 @@ logs
 results
 
 npm-debug.log
+
+.gitignore
+node_modules/
+.c9revisions/
+.git/
