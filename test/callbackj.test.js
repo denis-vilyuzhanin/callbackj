@@ -142,7 +142,88 @@ exports.callbackObject = {
 
 
 exports.callbackFunction = {
+    
     callbackObject: {
-        
+        indifferentCompleteHandler: function(test) {
+            test.expect(1);
+            var callback = callbackObjectStub(test, {
+                success: function(result) {
+                    test.ok(1);
+                }
+            });
+            
+            callback();
+            test.done();
+        },
+        successHandler: function(test) {
+            test.expect(1);
+            var expectedResult = {};
+            var callback = callbackObjectStub(test, {
+                success: function(result) {
+                    test.strictEqual(result, expectedResult);
+                }
+            });
+            
+            callback(expectedResult);
+            test.done();
+        },
+        errorHandler: function(test) {
+            test.expect(1);
+            var expectedError = new Error("expected error");
+            var callback = callbackObjectStub(test, {
+                error: function(error) {
+                    test.strictEqual(error, expectedError);
+                }
+            });
+            
+            callback(expectedError);
+            test.done();
+        },
+        successAndErrorHandler: function(test) {
+            test.expect(2);
+            var expectedResult = {};
+            var expectedError = {};
+            var callback = callbackObjectStub(test, {
+                success: function(result) {
+                    test.strictEqual(result, expectedResult);
+                },
+                error: function(error) {
+                    test.strictEqual(error, expectedError);
+                }
+            });
+            callback(undefined, expectedResult);
+            callback(expectedError, undefined);
+            test.done();
+        },
+        eachHandler: function(test) {
+            test.expect(2);
+            var expectedItem = {};
+            var expectedIndex = 100;
+            var callback = callbackObjectStub(test, {
+                each: function(item, index) {
+                    test.strictEqual(item, expectedItem);
+                    test.strictEqual(index, expectedIndex);
+                }
+            });
+            callback(undefined, expectedItem, expectedIndex);
+            test.done();
+        },
     }
 };
+
+
+function callbackObjectStub(test, callback) {
+    function fail() {
+        test.fail();
+    }
+    function find(handler) {
+        return handler ? handler : fail
+    }
+    return callbacks({
+        success: find(callback.success),    
+        error: find(callback.error),
+        each: find(callback.each),
+        begin: find(callback.begin),
+        end: find(callback.end)
+    });
+}
