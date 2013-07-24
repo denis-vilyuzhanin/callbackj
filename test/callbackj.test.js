@@ -22,13 +22,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
  
-var callbacks = require('../js/callbackj');
+var callbackj = require('../js/callbackj');
 
 exports.callbackObject = {
     handlerFunction : {
         indifferentHandler: function(test) {
             test.expect(2);
-            var callback = callbacks(function(){
+            var callback = callbackj(function(){
                 test.ok(1);
             });
             callback.success(null);
@@ -38,7 +38,7 @@ exports.callbackObject = {
         handleSuccessResult: function(test) {
             test.expect(1);
             var expected = {};
-            var callback = callbacks(function(result){
+            var callback = callbackj(function(result){
                 test.strictEqual(result, expected);
             });
             
@@ -47,7 +47,7 @@ exports.callbackObject = {
         },
         ignoreErrorWhenOnlyResultIsInterested: function(test) {
             test.expect(0);
-            var callback = callbacks(function(result){
+            var callback = callbackj(function(result){
                  test.ok(1);
             });
             
@@ -57,7 +57,7 @@ exports.callbackObject = {
         handleError: function(test) {
             test.expect(2);
             var expected = {};
-            var callback = callbacks(function(error, result){
+            var callback = callbackj(function(error, result){
                 test.strictEqual(error, expected);
                 test.strictEqual(result, undefined);
             });
@@ -69,7 +69,7 @@ exports.callbackObject = {
             test.expect(2);
             var expectedResult = {};
             var expectedError = {};
-            var callback = callbacks(function(error, result){
+            var callback = callbackj(function(error, result){
                 if (error === undefined) {
                     test.strictEqual(result, expectedResult);
                 }
@@ -89,7 +89,7 @@ exports.callbackObject = {
             var expectedIndex = 100;
             var expectedItem = {};
             var expectedError = {};
-            var callback = callbacks(function(error, item, index){
+            var callback = callbackj(function(error, item, index){
                 if (error === undefined) {
                     test.strictEqual(item, expectedItem);
                     test.strictEqual(index, expectedIndex);
@@ -108,7 +108,7 @@ exports.callbackObject = {
         successHandler: function(test){
             test.expect(1);
             var expectedResult = {};
-            var callback = callbacks({
+            var callback = callbackj({
                 success: function(result) {
                     test.strictEqual(result, expectedResult);
                 }
@@ -119,7 +119,7 @@ exports.callbackObject = {
         errorHandler: function(test){
             test.expect(1);
             var expectedError = {};
-            var callback = callbacks({
+            var callback = callbackj({
                 error: function(error) {
                     test.strictEqual(error, expectedError);
                 }
@@ -131,7 +131,7 @@ exports.callbackObject = {
             test.expect(2);
             var expectedItem = {};
             var expectedIndex = 100;
-            var callback = callbacks({
+            var callback = callbackj({
                 each: function(item, index) {
                     test.strictEqual(item, expectedItem);
                     test.strictEqual(index,expectedIndex);
@@ -142,7 +142,7 @@ exports.callbackObject = {
         },
         beginHandler: function(test){
             test.expect(1);
-            var callback = callbacks({
+            var callback = callbackj({
                 begin: function() {
                     test.ok(1);                    
                 }
@@ -152,7 +152,7 @@ exports.callbackObject = {
         },
         endHandler: function(test){
             test.expect(1);
-            var callback = callbacks({
+            var callback = callbackj({
                 end: function() {
                     test.ok(1);                    
                 }
@@ -247,7 +247,7 @@ exports.callbackFunction = {
         functionIsInvokedAsIs: function(test) {
             test.expect(4);
             var argsCount;
-            var callback = callbacks(function(){
+            var callback = callbackj(function(){
                 test.equal(arguments.length, argsCount);
             });
             argsCount = 0;
@@ -275,7 +275,7 @@ function callbackObjectStub(test, callback) {
     function find(handler) {
         return handler ? handler : fail
     }
-    return callbacks({
+    return callbackj({
         success: find(callback.success),    
         error: find(callback.error),
         each: find(callback.each),
