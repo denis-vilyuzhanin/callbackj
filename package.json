@@ -5,11 +5,11 @@
   "keywords"      : ["javascript", "functional", "asynchronous" , "callback" ,"util" , "server", "client", "browser"],
   "author"        : "Denys Viliuzhanin <dvilyuzhanin@gmail.com>",
   "repository"    : {"type": "git", "url": "git://github.com/denis-vilyuzhanin/callbackj.git"},
-  "main"          : "callbackj.js",
-  "version"       : "1.0.0",
+  "main"          : "src/callbackj.js",
+  "version"       : "0.5.0",
   "devDependencies": {
     "nodeunit": "0.8.1"
   },
   "license"       : "MIT",
-  "files"         : ["src/callbackj.js", "LICENSE"]
+  "files"         : ["src/callbackj.js", "LICENSE", "AUTHORS.txt"]
 }
