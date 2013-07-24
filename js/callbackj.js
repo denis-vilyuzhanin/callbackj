@@ -20,8 +20,6 @@ function Callback(handler) {
         this._error = function(error) {
             if (handler.length == 0) {
                 handler();
-            } else if (handler.length == 1) {
-                handler(error);
             } else if (handler.length == 2) {
                 handler(error, undefined);
             } else if (handler.length == 3) {
