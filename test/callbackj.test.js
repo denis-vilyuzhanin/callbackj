@@ -2,7 +2,7 @@
 var callbacks = require('../js/callbackj');
 
 exports.callbackObject = {
-    callbackFunction : {
+    handlerFunction : {
         indifferentHandler: function(test) {
             test.expect(2);
             var callback = callbacks(function(){
@@ -81,7 +81,7 @@ exports.callbackObject = {
         }
     },
     
-    callbackObject: {
+    handlerObject: {
         successHandler: function(test){
             test.expect(1);
             var expectedResult = {};
@@ -143,7 +143,7 @@ exports.callbackObject = {
 
 exports.callbackFunction = {
     
-    callbackObject: {
+    handlerObject: {
         indifferentCompleteHandler: function(test) {
             test.expect(1);
             var callback = callbackObjectStub(test, {
@@ -165,6 +165,17 @@ exports.callbackFunction = {
             });
             
             callback(expectedResult);
+            test.done();
+        },
+        successHandlerWhenResultIsUndefined: function(test) {
+            test.expect(1);
+            var callback = callbackObjectStub(test, {
+                success: function(result) {
+                    test.strictEqual(result, undefined);
+                }
+            });
+            
+            callback(undefined);
             test.done();
         },
         errorHandler: function(test) {
@@ -208,6 +219,28 @@ exports.callbackFunction = {
             callback(undefined, expectedItem, expectedIndex);
             test.done();
         },
+    },
+    handlerFunction: {
+        functionIsInvokedAsIs: function(test) {
+            test.expect(4);
+            var argsCount;
+            var callback = callbacks(function(){
+                test.equal(arguments.length, argsCount);
+            });
+            argsCount = 0;
+            callback();
+            
+            argsCount = 1;
+            callback({});
+            
+            argsCount = 2;
+            callback({}, {});
+            
+            argsCount = 3;
+            callback({}, {}, {});
+            
+            test.done();
+        }    
     }
 };
 
