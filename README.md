@@ -32,7 +32,7 @@ and you could receive success notification after all object is selected and you
 could receive error if something goes wrong.
 So this givies you following options to invoke ```selectAll``` function.
 
-* I don't care of result and error. I just want to know that it was done.
+* If you don't care of result and error and you just want to know that it was done.
 
 ```js
 
@@ -40,7 +40,7 @@ selectAll(/foo/, function(){
     // this code will be invoked if all objects are selected or error is raised.
 });
 ```
-* I am interested in result but I don't care about errors
+* If you are interested in result but I don't care about errors
 
 ```js
 
@@ -49,7 +49,7 @@ selectAll(/foo/, function(result){
     //In our case it is an array of selected objects
 });
 ```
-* I am interested in result and error
+* If you are interested in result and error
 
 ```js
 
@@ -61,7 +61,7 @@ selectAll(/foo/, function(error, result){
 });
 ```
 
-* Or I want have different functions for error and success handling
+* Or You want to have different functions for error and success handling
 
 ```js
 
@@ -72,7 +72,7 @@ selectAll(/foo/, {
 ```
 To understand all options of creating callbacks please look at CallbackJ convention.
 
-You could think that ```selectAll``` must complicated to handle such amount of
+You could think that ```selectAll``` must be complicated to handle such amount of
 possible callback functions implementaion. But you are wrong.
 Please look at following code.
 ```js
