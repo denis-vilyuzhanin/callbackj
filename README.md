@@ -15,7 +15,7 @@ without modifying existing (if existing code matches CallbackJ conventions).
 # A Brief Look
 
 You have ```selectAll``` function which uses CallbackJ and you are going to use it.
-Let's imagen that ```selectAll``` function retrieve some objects by input parameter.
+Let's imagine that ```selectAll``` function retrieve some objects by input parameter.
 And you found following description in documentation about ```selectAll``` function.
 
 ```js
