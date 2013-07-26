@@ -15,19 +15,22 @@ without modifying existing (if existing code matches CallbackJ conventions).
 # A Brief Look
 
 You have ```selectAll``` function which uses CallbackJ and you are going to use it.
-You that ```selectAll``` function retrieve some objects by input parameter.
-You found folloing description in documentation about function
+Let's imagen that ```selectAll``` function retrieve some objects by input parameter.
+And you found following description in documentation about ```selectAll``` function.
 
 ```js
 /**
  * selector - regex which specify strings must be selected
- * callbackJ - CallbackJ compatible function for receiving each retrived string, all retrived strings after success and error if something goes wrong.
+ * callbackJ - CallbackJ(each,success,error)
  */
 function selectAll(selector, callbackJ)
 
 ```
-What does ```callbackJ CallbackJ compatible function for ...``` message mean?
-It means that you have following options to receive callback messages.
+What does ```CallbackJ(each,success,error)``` message mean?
+It means that function match CallbackJ convention and you could receive each select object one by one, 
+and you could receive success notification after all object is selected and you
+could receive error if something goes wrong.
+So this givies you following options to invoke ```selectAll``` function.
 
 * I don't care of result and error. I just want to know that it was done.
 
@@ -67,25 +70,31 @@ selectAll(/foo/, {
     error: function(error){/*handle error*/}
 });
 ```
-We have on ```selectAll``` funtion which provide such flexibility.
-Is it hard to implement? No, it isn't.
+To understand all options of creating callbacks please look at CallbackJ convention.
 
+You could think that ```selectAll``` must complicated to handle such amount of
+possible callback functions implementaion. But you are wrong.
+Please look at following code.
 ```js
 function selectAll(selector, callback) {
     callback = callbackj(callback);
     try {
         for(var i = 0; i < STRINGS.length; i++) {
-            if (STRINGS[i].match(selector)) callback.each(STRINGS[i], i);
+            if (STRINGS[i].match(selector)) 
+                callback.each(STRINGS[i], i); // but it could be callback(undefined, STRINGS[i], i);
         }    
-        callback.success(e);
+        callback.success(); // but it could be callback();
     } catch(e) {
-        callback.error(e);
+        callback.error(e); // but it could be callback(e, undefined);
     }
 }
 ```
-So see that implentation is clear. You just need wrap received callback.
-Client code use any option to implement callback function. It only must match 
-CallbackJ convention.
+You see that implentation is clear. You just need wrap received callback.
+The caller could use any option to implement callback function. It only must match 
+CallbackJ convention. In comments in above code you can see the options of how
+callback could be invoked. 
+So CallbackJ provide flexibility for both caller and callee and they haven't to 
+agreed a contract. They use that format they want. 
 
 
 
