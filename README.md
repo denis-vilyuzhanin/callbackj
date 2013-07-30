@@ -48,7 +48,7 @@ This provides following abilities:
 
 1. ```callback``` are optional. It could be ```undefined``` or ```null```. This doesn't broke ```countDown``` function
 1. ```callback``` argument can be a function or an object.
-1. If ```callback``` argument are object then all attributes are optional. 
+1. If ```callback``` argument are object then ```success```, ```each``` and ```error``` attributes are optional. 
 You can skip it if you are not interested in errors when you invokes ```countDown``` function.
 
 Here are example of using ```countDown```.
