@@ -43,13 +43,16 @@ function countDown(delay, callback) {
 ```
 It looks like clear execpt first line ```calback = callbackj(callback)```.
 This line wraps received callback function in **CallbackJ warpper object**.
+Why do I need this? You could ask.
 This provides following abilities:
-1. ```callback``` are optional. It could be ```undefined``` or ```null```. This doesn't broke ```countDown``` function
-1. You can use object or function to define **callback code**
-1. All attributes are optional. If ```caller``` isn't interested in errors it could skip it.
 
-You could invoke ```countDown``` function with object which contains **callback functions** in attributes.
-In next sample we are interested only in **each** or **success* notifications.
+1. ```callback``` are optional. It could be ```undefined``` or ```null```. This doesn't broke ```countDown``` function
+1. ```callback``` argument can be a function or an object.
+1. If ```callback``` argument are object then all attributes are optional. 
+You can skip it if you are not interested in errors when you invokes ```countDown``` function.
+
+Here are example of using ```countDown```.
+You can pass an object with interested for you **callback functions**
 ```js
 countDown(5, {
     each: function(item, index){console.log(item)}, 
@@ -75,8 +78,8 @@ countDown(5, function(error, result){
 });
 ```
 You see that **CallbackJ** provide different interfaces and take cares about 
-compatibility between **caller** and **callee*. 
-You need to define only that you need. 
+compatibility between code which define **callback functions** and code which invokes them.
+You need to define only that you are interested in.
 
 #Get started
 
