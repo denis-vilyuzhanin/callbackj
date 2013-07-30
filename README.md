@@ -83,6 +83,9 @@ You need to define only that you are interested in.
 
 #Get started
 
+
+## Download
+
 Download [callbackj.js](https://github.com/denis-vilyuzhanin/callbackj/js/callbackj.js) from [CallbackJ GitHub repository](https://github.com/denis-vilyuzhanin/callbackj)
 or by any appropriate way described in section about specific platform.
 
@@ -94,12 +97,12 @@ To use it in web browser you need add ```callback.js``` script into you web page
     <script src="callbackj.js"></script>
 ```
 
-## NodeJs
+## NodeJS
 
 Import ```callbackj.js``` file into your project
 
 ```js
-callback = callbackj('./callbackj'); // path could be different in you case
+var callback = callbackj('./callbackj'); // path could be different in your case
 ```
 
 ## Usage
@@ -155,6 +158,8 @@ So **CallbackJ** makes decopling codes. Adding new attributes for passing **call
 **CallbackJ** also specify the rules for defining **callback function** and notifing about some events which could happened in called code. Like failed or successful execution.
 The rules isn't comprehensive but covers the most frequent cases.
 
+## Definitions
+
 Before we starts let's define some useful things:
 
 1. **callback function**. The function which passed to called function through it's arguments for 
@@ -188,7 +193,7 @@ doSomething({
     error: function(){/*error code*/}
 });
 ```
-First is more compact but second is more sutable when you have more than one possible **callback**.
+First is more compact but second is more suitable when you have more than one possible **callback**.
 So let's call **callback object** a **callback function** or object with stored **callback functions**.
 
 1. **caller**. The code or function which invokes other function.
