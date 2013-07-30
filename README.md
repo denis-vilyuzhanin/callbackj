@@ -127,15 +127,52 @@ try {
 }
 ```
 
-for more detailes about usage and features of **CallbackJ** see [Detailed look at CallbackJ](#detailed-look)
+for more detailes about usage and features of **CallbackJ** see [Detailed look at CallbackJ](#detailed-look-at-callbackj)
 
-# <a id="detailed-look"></a>Detailed look at CallbackJ
+# Detailed look at CallbackJ
+
+## Goals
+
+Supporting contracts between different parts of project are required. Because adding one required argument into function requres add passing values in all
+places where this function is invoked.
+**Callback function** technique are widly used in JavaScript project and require supporing contract between called function and **callback function** passed thought arguments.
+Making this contract flexible produce verbose code like this:
+
+```js
+function doSomething(callback) {
+    //do something
+    if (typeof(callback) == 'function') {
+        callback("OK");
+    } else if (callback.success) {
+        callback.success("OK");
+    }
+}
+```
+
+**CallbackJ** solves this problems. You use that way of invoking **callback function** you want and **CallbackJ** will make all transformations depends on type of received **callback function** object.
+
+So **CallbackJ** makes decopling codes. Adding new attributes for passing **callback function** isn't a problem. You don't need to add this attribute in all places, where this functin is called, to avoid exception.
+**CallbackJ** also specify the rules for defining **callback function** and notifing about some events which could happened in called code. Like failed or successful execution.
+The rules isn't comprehensive but covers the most frequent cases.
 
 Before we starts let's define some useful things:
+
 1. **callback function**. The function which passed to called function through it's arguments for 
 later invocation in appropriate moment.
 
-1. **callback call** - the moment when callee invokes passed through parameters **callback function**.
+```js
+setTimeout(function(){
+    // here is a body of callback function. It will invoked after 500ms
+}, 500)
+```
+
+1. **callback** - the moment when callee invokes passed through parameters **callback function**.
+
+```js
+function doSomething(func) {
+    func(); // this is callback.
+}
+```
 
 1. **callback object**. In Javascript you can find two ways of passing **callback functions**.
 First is passing a normal function.
@@ -151,17 +188,43 @@ doSomething({
     error: function(){/*error code*/}
 });
 ```
-First is more compact but second is more sutable when you have more than one possible **callback call**.
-So let's call **callback object** of any type: function or object with stored functions.
+First is more compact but second is more sutable when you have more than one possible **callback**.
+So let's call **callback object** a **callback function** or object with stored **callback functions**.
 
-## Description 
+1. **caller**. The code or function which invokes other function.
+
+1. **callee**. The code of function which was invoked by other code or function. In other words: **caller** invokes **callee**.
+
+
+## Callback Broker 
 
 **CallbackJ** provides a special wrapper which is called  **callback broker** or **broker**.
+To obtain **callback broker** just wraps received **callback object** like this
+
+```js
+function doSomething(callback) {
+    callback = callbackj(callback); // override received callback object with broker
+}
+```
+
+**Broker** is a proxy which could be considered as object with **callback functions** stored in its attributes or could be considered as **callback function**.
+It interprites any invokation as occured event. Firstly it recognizes event type, based on specified rules and secondly it 
+identifies whether this event is interested to **callback object**
 **Broker** is a proxy which could be notified about event via one of interface and
-than it determins whether this event is interested by wrapped **callback function**.
-So one of the main goal of **CallbackJ** is proving flexibility. If **caller** don't want
-define **callback object**  **broker** will take care about it and provide empty implementation.
-So **called** never failed because **callback object** doesn't contain something.
+than it determins whether this event is interested by wrapped **callback object**.
+If **callback object** isn't interested in event, **broker** will provide empty implementation to avoid exception.
+
+```js
+function doSomething(callback) {
+    callback = callbackj(callback);
+    callback.success();
+}
+
+doSomthing({}); // we would have had an exception if we hadn't used callbackJ
+```
+
+In above example we would have exception in last line, because ```success`` attribute isn't defined.
+But **broker** has solved this.
 
 ##Events
 
