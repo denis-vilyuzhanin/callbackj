@@ -35,9 +35,81 @@ Future versions
  */
  function doSomething(callback);
 ```
-#Model
+#Definitions
 
-TODO: describe interaction model
+1. **callback function** is used in meaning which described on [wikipedia.org](http://en.wikipedia.org/wiki/Callback_(computer_programming))
+Here is extract. 
+_In computer programming, a callback is a piece of executable code that is passed as an argument to other code, which is expected to call back (execute) the argument at some convenient time. The invocation may be immediate as in a synchronous callback or it might happen at later time, as in an asynchronous callback._
+For JavaScript callback function could looks like following:
+
+```js
+doSomething(function(){
+    //callback function defined as annonymous function
+});
+```
+All code samples use annonymous function but this is just for simplicity. It doesn't mean that you
+can't use normal functions like shown in next sample.
+
+```js
+function callback(){
+    //callback function defined as named function
+}
+doSomething(callback);
+```
+
+1. **callback object** is an object which contains callback functions as attributes.
+
+```js
+doSomething({
+    callback1: function(){/*body of first callback function*/},
+    callback2: function(){/*body of second callback function*/};
+});
+```
+
+1. **caller** is the piece of code or function which invoke other function and pass **callback function** or **callback obejct** 
+as an argument
+
+1. **callee** is the function which perfomrs some work.
+It is invoked by caller with specified **callback function** or **callback object** which expected to be invoked
+at some convenient time for delivering results of done work.
+
+1. **callback broker** or **broker** is a framework which serves communication and interaction between **callee** and **caller**
+
+1. **result object** or **result**
+2. **item object** or **item**
+3. **item index** or *index*
+4. *error object* or **error**
+
+1. **event**
+
+1. **notification**
+
+1. **event handler**
+
+
+#CallbackJ Interaction Model
+
+Explained model in this section is abstract and isn't required to be implemented
+preciesly as described here. Also model define entities, relationship and processes 
+but they are optional for implementation and used only for explanation 
+interaction rules and behaviour.
+
+**CallbackJ Interaction Model** defines interaction between **caller** and **callee**
+when **callee** performs some work and the result of this work is delivered 
+through callback mechanism passed by **caller** via input arguments of **callee**.
+
+* **callback** is a moment when invoked piece of executable code invokes executable
+code passed as an argument.
+
+* **callback mechanism** is an extension of **callback function** 
+
+* **caller** is the pieсe of code or function which initialize interaction via
+invoking other function and 
+
+
+
+
+
 
 ## Events
 
