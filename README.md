@@ -83,10 +83,26 @@ You need to define only that you are interested in.
 
 #Get started
 
-Download ```callbackj.js``` from (GitHub)[https://github.com/denis-vilyuzhanin/callbackj]
-or by any appropriate way described in section about specific platform
-* Node JS
-* Browser
+Download [callbackj.js](https://github.com/denis-vilyuzhanin/callbackj/js/callbackj.js) from [CallbackJ GitHub repository](https://github.com/denis-vilyuzhanin/callbackj)
+or by any appropriate way described in section about specific platform.
+
+## Browser
+
+To use it in web browser you need add ```callback.js``` script into you web page
+
+```html
+    <script src="callbackj.js"></script>
+```
+
+## NodeJs
+
+Import ```callbackj.js``` file into your project
+
+```js
+callback = callbackj('./callbackj'); // path could be different in you case
+```
+
+## Usage
 
 To use **CallbackJ** just wrap any **callback function** or object with **callback functions**
 
@@ -110,31 +126,10 @@ try {
     callback(e, undefined);
 }
 ```
-## Node JS
 
-Import ```callbackj``` module
+for more detailes about usage and features of **CallbackJ** see [Detailed look at CallbackJ](#detailed-look)
 
-```js
-var callbackj = require('callbackj');
-```
-
-Or if you doen't install it as module you can import it by path
-
-```js
-var callbackj = require('./lib/callbackj'); // where ./lib/callbackj is path to callbackj.js file.
-```
-
-## Browser
-
-Just add script into your web page.
-
-```html
-    <script src="callbackj.js"></script>
-```
-
-And use global ```callbackj``` global object.
-
-# Detailed look at CallbackJ
+# <a id="detailed-look"></a>Detailed look at CallbackJ
 
 Before we starts let's define some useful things:
 1. **callback function**. The function which passed to called function through it's arguments for 
@@ -151,7 +146,7 @@ doSomething(function(){/*my callback code*/});
 Second is passing an object with **callback functions** was stored in its attributes with specified names.
 
 ```js
-doSomethign({
+doSomething({
     success: function(){/*success code*/},
     error: function(){/*error code*/}
 });
