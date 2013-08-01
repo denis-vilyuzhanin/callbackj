@@ -1,4 +1,4 @@
-CallbackJ Manual
+CallbackJ Programming Guide
 ==================
 
 # CallbackJ Goals
@@ -204,12 +204,11 @@ But **result object** also could be **undefined**.
 
 ```js
  function(error, result){...}
- ```
+```
  
- 1. Three arguments. Handle each, success and error events. **error object** 
- 
-  
- ```js
+1. Three arguments. Handle each, success and error events. **error object** 
+
+```js
  /**
   * Handle each, success and error events. If error isn't undefined then handle must considering call as error event handling
   * otherwise it must check index. If index is undefined than this call must be considering as success event handling otherwise 
@@ -219,6 +218,20 @@ But **result object** also could be **undefined**.
 ```
 
 ###Object Interest Exploring
+
+In contradistinction to functions it is very easy explores object interest. If object has attribute with name of one of events then it is interested in this event.
+This attribute must contains **callback function**. Here are example with handlers for all events.
+
+```js
+{
+    success: function(result){ ... },
+    error: function(error){ ... },
+    each: function(item, index){ ... },
+    begin: function(){ ... },
+    end: function(){ ... }
+}
+```
+Remember you don't need define all handlers in your **callback object** only that you need.
 
 ##Rules about event occuring.
 Here it is convention specifies in which order events can occure.
