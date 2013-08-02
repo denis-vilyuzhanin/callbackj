@@ -1,8 +1,6 @@
 CallbackJ Programming Guide
 ==================
 
-# CallbackJ Goals
-
 Compatibility of different parts in project are always tedious work. Because adding one required argument into function requres add passing values in all
 places where this function is invoked.
 **Callback function** technique are widly used in JavaScript project and require supporing contract between called function and **callback function** passed thought arguments.
@@ -190,6 +188,50 @@ function doLoadAndSortAndFilter(callback){
     callback.end();
 }
 ```
+## Commenting
+
+Using standard events makes code uniform and easier to understand. Because the same things works similar in all places.
+But **CallbackJ** also gives you a freedom. You could use that events that you want in your algorithm.
+So it is very important to explain in documentation or function description that it uses **CallbackJ** and 
+what events are used and for what perpouses.
+
+For uniform documenting **CallbackJ** provides description format.
+Please take a look following sample
+
+```js
+
+/**
+ * Function which do something
+ * param1 - some input parameters
+ * callback -   CallbackJ {
+ *                  each - notifies that some was done
+ *                  success - notifies that everything was done
+ *                  error
+ *              }
+ * 
+function doSomething(param1, callback){...}
+```
+The most interesting in below example is comment of callback parameter
+
+```
+CallbackJ {
+    each - notifies that some was done
+    success - notifies that everything was done
+    error
+}
+```
+
+```CallbackJ``` means that received **callback object** will be wrapped with **CallbackJ broker**.
+The list, inside braсes, contains events and theirs description which could be sent by **callee**.
+It is also very useful that you add ```sync``` of ```async``` keyword which means that
+work will be executed synchronously or asynchronously.
+Next example of comment.
+
+```
+CallbackJ{async each success error}
+```
+Very easy to understand that **callee** works asynchronously and could sent ```each```, ```success``` and ```error``` events.
+And you are free to handle only that you want. There are nothing required.
 
 ## Notification
 Here are a possible options to notify **CallbackJ** about some event. 
@@ -310,23 +352,3 @@ This attribute must contains **callback function**. Here are example with handle
 ```
 Remember you don't need define all handlers in your **callback object** only that you need.
 
-##Rules about event occuring.
-Here it is convention specifies in which order events can occure.
-
-1. **begin event**: if event can be raised it could be raised only before all other events and only once. 
-1. **each event**: if event can be raised it could be raised any times but only before **success event** or **error event**. Each time **index** must be incremented.
-1. **error event**: if event could be raised it could be raised when something goes wrong but only before **end event**.
-1. **success event**: if event could be raised it could be raised when all work completes successfuly but only before **end event**
-1. **error event** and **success event** are mutually exclusive.
-1. **end event**: if events can be raised it raises after all other events and only once.
-1. if event wasn't aised at appropriate time it could not be raised within current work. It means that **each event** was raised
-**begin event** can't be raised anymore.
-
-
-```
-[step 1] raise begin
-[step 2] receive data into buffer
-[step 3] raise each event. Pass received data as item object
-[step 4] continue? goto [step 2]
-[step]
-```
