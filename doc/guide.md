@@ -98,7 +98,7 @@ doSomthing({}); // we would have had an exception if we hadn't used callbackJ
 In above example we would have exception in last line, because ```success`` attribute isn't defined.
 But **broker** has solved this.
 
-##Events
+## Events
 
 **Callback object** is used for notifing **caller** about something that happened withing **callee** execution.
 So this call could be considered as event.
@@ -113,6 +113,18 @@ It could be received part of data or one produced object. Event must have **inde
 **item object** may be any type or ```undefined``` or ```null```.
 1. **begin event**: This event notifies that work begins. No extra information are provided.
 1. **end event**: This event notifies that work done.
+
+## Abstract Work
+
+After **caller** invokes **callee** it starts doing some work. 
+**CallbackJ** has model of abstract work. All algorigthms could be matched to this model. 
+It is better implementing your algorithm considering this model. 
+This will give you ability fully using **CallbackJ** fetures.
+
+![](images/abstract-work.png?raw=true)
+
+
+
 
 ## Notification
 Here is a possible options to notify CallbackJ about some event. 
