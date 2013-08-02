@@ -123,14 +123,79 @@ This will give you ability fully using **CallbackJ** fetures.
 
 ![](images/abstract-work.png?raw=true)
 
+**Abstract work** starts from **begin event**. After that **callee** can start actual work.
+**Each event** notifies about that one step has been done or **partial result has been completed**.
+**callee** can have many iterations and it may product **each event** after each iteration.
+After everything is done **callee** will send **success event** but
+If something goes wrong it will stop working and send **error event** with **error object** inside it.
+After everything is done and **success** or **error event** was handled **callee** sends **end event**.
+After that all work must be stoped.
+This model is used for synchronous and asynchronous execution.
+If **callee** makes work asynchronously it will send **begin event** after real work starting.
 
+Here is a example of asynchronous work which uses all events.
+```js
+function doSomething(callback) {
+    setTimeout(function(){
+        callback.begin();
+        try {
+            for(var index = 0; index <= 100; index++){
+                //do something
+                callback.each(item, index)
+            }
+            // create result
+            callback.success(result);
+        } catch (e) {
+            callback.error(e);
+        }
+        callback.end();
+    }, 1000);
+}
+```
 
+This a hight level description of how **CallbackJ** considering any work.
+It also means that all events will follow in order described below
+1. one **begin event**
+2. zero or many **each events**
+3. one **success** or **error event**. Thery are mutually exclusive.
+4. one **end event**
+
+Events are optional so it could be skipped in your algorithm but if **success event** was sent, **each event** can't be sent anymore.
+If your algorithm has several steps which produce different **partial results** you should use the same event for both but you 
+could add into **partial result object** some flag which indicate what step was completed now.
+
+Take a look to following examples
+```js
+function doLoadAndSortAndFilter(callback){
+    callback.begin();
+    try {
+        var data = loadObjects();
+        callback.each({
+            type: "loaded",
+            data: data
+        }, 0);
+        
+        sort(data);
+        callback.each({
+            type: "sorted",
+            data: data
+        }, 1);
+        
+        filter(data);
+        
+        callback.success(data);
+    } catch(e) {
+        callback.error(e);
+    }
+    callback.end();
+}
+```
 
 ## Notification
-Here is a possible options to notify CallbackJ about some event. 
+Here are a possible options to notify **CallbackJ** about some event. 
 **Broker** has two types of notification: use methods or call it as function.
 It is developer chose what type to use. Methods are more obvious but function calling 
-was provides for using in legacy code when it is compatible with **broker** interface
+is compact and easy was provides for using in legacy code when it is compatible with **broker** interface
 which is described below.
 
 * **success event**.
